@@ -25,19 +25,11 @@ class FavouritePhotoCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    override var isSelected: Bool {
-        didSet {
-            if isSelected {
-                checkMarkImageView.isHidden = false
-                photoImageView.layer.opacity = 0.5
-            } else {
-                checkMarkImageView.isHidden = true
-                photoImageView.layer.opacity = 1
-            }
-        }
-    }
-    
     //MARK: - View
+    
+    var photoImage: UIImage? {
+        photoImageView.image
+    }
     
     private lazy var photoImageView: UIImageView = {
         let imageView = UIImageView()
@@ -48,20 +40,11 @@ class FavouritePhotoCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    private lazy var checkMarkImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "checkmark.circle.fill")
-        imageView.tintColor = .label
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-    
     //MARK: - Initialization
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setConstraints()
-        checkMarkImageView.isHidden = true
     }
     
     required init?(coder: NSCoder) {
@@ -78,12 +61,6 @@ class FavouritePhotoCollectionViewCell: UICollectionViewCell {
             photoImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             photoImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             photoImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-        ])
-        
-        contentView.addSubview(checkMarkImageView)
-        NSLayoutConstraint.activate([
-            checkMarkImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
-            checkMarkImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
     }
 }

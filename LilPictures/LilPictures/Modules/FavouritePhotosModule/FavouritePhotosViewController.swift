@@ -13,8 +13,10 @@ class FavouritePhotosViewController: UIViewController {
     
     var viewModel: FavouritePhotosViewModelProtocol! {
         didSet {
-            viewModel.fetchPhotos { [unowned self] in
-                favouritePhotosCollectionView.reloadData()
+            viewModel.fetchPhotos()
+            setEnablingToOptionsButton()
+            viewModel.viewModelDidChange = { [unowned self] changedViewModel in
+                setEnablingToOptionsButton()
             }
         }
     }
@@ -25,8 +27,24 @@ class FavouritePhotosViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.register(FavouritePhotoCollectionViewCell.self, forCellWithReuseIdentifier: FavouritePhotoCollectionViewCell.identifier)
         collectionView.alwaysBounceVertical = true
-        collectionView.allowsMultipleSelection = true
         return collectionView
+    }()
+    
+    private var menuItems: [UIAction] {
+        return [
+            UIAction(title: "Delete all", image: UIImage(systemName: "trash"), attributes: .destructive, handler: { [weak self] _ in
+                self?.showDeleteAllAlert()
+            })
+        ]
+    }
+
+    private var demoMenu: UIMenu {
+        return UIMenu(title: "Options", children: menuItems)
+    }
+    
+    private lazy var optionsButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: nil, image: UIImage(systemName: "ellipsis.circle"), primaryAction: nil, menu: demoMenu)
+        return button
     }()
     
     //MARK: - View Controller Lifecycle
@@ -48,7 +66,7 @@ class FavouritePhotosViewController: UIViewController {
         title = "Favourites"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.rightBarButtonItems = [
-            
+            optionsButton
         ]
     }
     
@@ -56,6 +74,28 @@ class FavouritePhotosViewController: UIViewController {
         view.addSubview(favouritePhotosCollectionView)
         favouritePhotosCollectionView.dataSource = self
         favouritePhotosCollectionView.delegate = self
+    }
+    
+    private func showDeleteAllAlert() {
+        let alert = UIAlertController(title: "", message: "All photos will be deleted from favorites", preferredStyle: .actionSheet)
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+        let delete = UIAlertAction(title: "Delete all", style: .destructive) { [unowned self] _ in
+            viewModel.deleteAllPhotos {
+                self.favouritePhotosCollectionView.reloadData()
+            }
+        }
+        alert.addAction(cancel)
+        alert.addAction(delete)
+        present(alert, animated: true)
+    }
+    
+    private func sharePhoto(with image: UIImage) {
+        let share = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+        present(share, animated: true)
+    }
+    
+    private func setEnablingToOptionsButton() {
+        optionsButton.isEnabled = viewModel.numberOfPhotos > 0
     }
 }
 
@@ -81,7 +121,27 @@ extension FavouritePhotosViewController: UICollectionViewDataSource {
 
 extension FavouritePhotosViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+        guard let cell = collectionView.cellForItem(at: indexPath) as? FavouritePhotoCollectionViewCell else { return }
+        viewModel.showDetailedPhoto(with: cell.viewModel.imageData)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { [weak self] _ in
+            let share = UIAction(title: "Share", image: UIImage(systemName: "square.and.arrow.up")) { _ in
+                guard
+                    let cell = collectionView.cellForItem(at: indexPath) as? FavouritePhotoCollectionViewCell,
+                    let image = cell.photoImage
+                else { return }
+                self?.sharePhoto(with: image)
+            }
+            let unlike = UIAction(title: "Delete from favorites", image: UIImage(systemName: "heart.slash"), attributes: .destructive) { _ in
+                self?.viewModel.deletePhoto(at: indexPath) {
+                    self?.favouritePhotosCollectionView.deleteItems(at: [indexPath])
+                }
+            }
+            return UIMenu(title: "", image: nil, children: [share, unlike])
+        }
+        return configuration
     }
 }
 

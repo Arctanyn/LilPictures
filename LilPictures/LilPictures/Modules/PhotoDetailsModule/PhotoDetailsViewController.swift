@@ -228,7 +228,7 @@ class PhotoDetailsViewController: UIViewController {
         
         containerView.addSubview(closeButton)
         NSLayoutConstraint.activate([
-            closeButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10),
+            closeButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 20),
             closeButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16)
         ])
         

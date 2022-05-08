@@ -8,14 +8,12 @@
 import Foundation
 
 protocol FavouritePhotoCellViewModelProtocol {
-    var photoID: String { get }
+    var imageData: Data? { get }
     func fetchPhoto(completion: @escaping (Data?) -> Void)
 }
 
 class FavouritePhotoCellViewModel: FavouritePhotoCellViewModelProtocol {
-    var photoID: String {
-        photo.id ?? ""
-    }
+    var imageData: Data?
     
     private let photo: PhotoStorageModel
     
@@ -25,12 +23,12 @@ class FavouritePhotoCellViewModel: FavouritePhotoCellViewModelProtocol {
     
     func fetchPhoto(completion: @escaping (Data?) -> Void) {
         guard let url = photo.url else { return }
-        NetworkDataManager.shared.fetchData(from: url) { imageData in
+        NetworkDataManager.shared.fetchData(from: url) { [unowned self] imageData in
+            self.imageData = imageData
             DispatchQueue.main.async {
                 completion(imageData)
             }
         }
     }
-    
     
 }

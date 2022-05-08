@@ -9,35 +9,52 @@ import Foundation
 
 protocol FavouritePhotosViewModelProtocol {
     var numberOfPhotos: Int { get }
-    func fetchPhotos(completion: @escaping () -> Void)
+    var viewModelDidChange: ((FavouritePhotosViewModelProtocol) -> Void)? { get set }
+    func fetchPhotos()
     func deletePhoto(at indexPath: IndexPath, completion: @escaping () -> Void)
     func deleteAllPhotos(completion: @escaping () -> Void)
     func viewModelForCell(at indexPath: IndexPath) -> FavouritePhotoCellViewModelProtocol
+    func showDetailedPhoto(with imageData: Data?)
 }
 
 class FavouritePhotosViewModel: FavouritePhotosViewModelProtocol {
     var numberOfPhotos: Int {
         photos.count
     }
+    
+    var viewModelDidChange: ((FavouritePhotosViewModelProtocol) -> Void)?
         
     private var photos: [PhotoStorageModel] = []
     private let storageManager = StorageManager()
+    private let router: RouterProtocol
     
-    func fetchPhotos(completion: @escaping () -> Void) {
+    init(router: RouterProtocol) {
+        self.router = router
+    }
+    
+    func fetchPhotos() {
         photos = storageManager.fetchPhotos()
     }
     
     func deletePhoto(at indexPath: IndexPath, completion: @escaping () -> Void) {
         storageManager.delete(photos[indexPath.item])
-        fetchPhotos(completion: completion)
+        photos.remove(at: indexPath.item)
+        viewModelDidChange?(self)
+        completion()
     }
     
     func deleteAllPhotos(completion: @escaping () -> Void) {
         storageManager.deleteAll()
-        fetchPhotos(completion: completion)
+        photos = []
+        viewModelDidChange?(self)
+        completion()
     }
     
     func viewModelForCell(at indexPath: IndexPath) -> FavouritePhotoCellViewModelProtocol {
         FavouritePhotoCellViewModel(photo: photos[indexPath.item])
+    }
+    
+    func showDetailedPhoto(with imageData: Data?) {
+        router.showDetailedFavPhotoViewController(with: imageData)
     }
 }

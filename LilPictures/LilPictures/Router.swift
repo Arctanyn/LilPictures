@@ -16,6 +16,7 @@ protocol RouterProtocol: BasicRouterRequirementsProtocol {
     func setInitialViewController()
     func showPhotosDetailsViewController(with photo: PhotoInfo)
     func showFavouritePhotosViewController()
+    func showDetailedFavPhotoViewController(with imageData: Data?)
 }
 
 class Router: RouterProtocol {
@@ -41,7 +42,12 @@ class Router: RouterProtocol {
     }
     
     func showFavouritePhotosViewController() {
-        let favouritePhotosViewController = assemblyBuilder.createFavouritePhotosModule()
+        let favouritePhotosViewController = assemblyBuilder.createFavouritePhotosModule(router: self)
         navigationController.pushViewController(favouritePhotosViewController, animated: true)
+    }
+    
+    func showDetailedFavPhotoViewController(with imageData: Data?) {
+        let detailedFavPhotoViewController = assemblyBuilder.creteDetailedFavPhotoModule(imageData: imageData)
+        navigationController.pushViewController(detailedFavPhotoViewController, animated: true)
     }
 }

@@ -26,7 +26,7 @@ class StorageManager {
         else { return }
         
         photoModel.url = photo.urls?["regular"]
-        photoModel.id = photo.id
+        photoModel.identifier = photo.id
         
         saveContext()
     }
@@ -82,7 +82,7 @@ class StorageManager {
     private func findObjectInStorage(_ photo: PhotoInfo) -> PhotoStorageModel? {
         guard let context = context else { return nil }
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PhotoStorageModel")
-        fetchRequest.predicate = NSPredicate(format: "url = %@", photo.urls?["regular"] ?? "")
+        fetchRequest.predicate = NSPredicate(format: "identifier = %@", photo.id ?? "")
         
         do {
             guard

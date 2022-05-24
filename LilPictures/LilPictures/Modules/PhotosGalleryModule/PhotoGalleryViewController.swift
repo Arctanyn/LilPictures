@@ -114,12 +114,10 @@ extension PhotoGalleryViewController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard photoCollectionView.numberOfItems(inSection: 0) <= 200 else { return }
         if indexPath.item == viewModel.numberOfPhotos - 1 {
             viewModel.fetchAdditionalImages { [unowned self] range in
-                for i in range {
-                    photoCollectionView.insertItems(at: [IndexPath(item: i, section: 0)])
-                }
+                let additionalIndexPaths = range.map { IndexPath(item: $0, section: 0) }
+                photoCollectionView.insertItems(at: additionalIndexPaths)
             }
         }
     }

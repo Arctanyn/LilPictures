@@ -47,7 +47,6 @@ class PhotoDetailsViewController: UIViewController {
         let label = UILabel()
         label.font = .systemFont(ofSize: 20, weight: .semibold)
         label.textColor = .label
-        label.text = "Arctanyn"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -151,7 +150,10 @@ class PhotoDetailsViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         userProfileImageView.layer.cornerRadius = userProfileImageView.frame.height / 2
-        createPhotoBackgroundBlur()
+        scrollView.contentSize = CGSize(
+            width: containerView.bounds.width,
+            height: containerView.bounds.height
+        )
     }
     
     //MARK: - Ations
@@ -206,13 +208,6 @@ class PhotoDetailsViewController: UIViewController {
                 withConfiguration: UIImage.SymbolConfiguration(pointSize: 25)), for: .normal
             )
         }
-    }
-    
-    private func createPhotoBackgroundBlur() {
-        scrollView.contentSize = CGSize(
-            width: containerView.bounds.width,
-            height: containerView.bounds.height
-        )
     }
     
     private func presentActivityController(with image: UIImage) {

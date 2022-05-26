@@ -30,9 +30,7 @@ class PhotoCollectionViewCellViewModel: PhotoCollectionViewCellViewModelProtocol
             return
         }
         NetworkDataManager.shared.fetchData(from: url) { imageData in
-            DispatchQueue.main.async {
-                completion(imageData)
-            }
+            completion(imageData)
         }
     }
     

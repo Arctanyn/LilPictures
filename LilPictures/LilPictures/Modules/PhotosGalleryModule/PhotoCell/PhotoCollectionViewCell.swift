@@ -18,6 +18,7 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     var viewModel: PhotoCollectionViewCellViewModelProtocol! {
         didSet {
             if viewModel.photoID == self.photoID {
+                photoImageView.image = nil
                 viewModel.fetchPhoto { [weak self] data in
                     guard let imageData = data else { return }
                     self?.photoImageView.image = UIImage(data: imageData)
@@ -25,8 +26,6 @@ class PhotoCollectionViewCell: UICollectionViewCell {
             } else {
                 photoImageView.image = nil
             }
-            
-            
         }
     }
     

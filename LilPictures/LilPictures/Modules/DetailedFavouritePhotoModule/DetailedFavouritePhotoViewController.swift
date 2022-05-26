@@ -14,9 +14,7 @@ class DetailedFavouritePhotoViewController: UIViewController {
     var viewModel: DetailedFavouritePhotoViewModelProtocol! {
         didSet {
             guard let imageData = viewModel.imageData else { return }
-            DispatchQueue.main.async { [weak self] in
-                self?.photoImageView.image = UIImage(data: imageData)
-            }
+            photoImageView.image = UIImage(data: imageData)
         }
     }
     

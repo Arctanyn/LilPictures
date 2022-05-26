@@ -15,23 +15,6 @@ class PhotoDetailsViewController: UIViewController {
         didSet {
             updateUI()
             
-            viewModel.fetchDetailedPhoto { [unowned self] imageData in
-                guard
-                    let imageData = imageData,
-                    let detailedImage = UIImage(data: imageData)
-                else { return }
-                detailedPhotoImageView.image = detailedImage
-                bluredPhotoImageView.image = detailedImage
-            }
-            
-            viewModel.fetchUserProfilePhoto { [unowned self] imageData in
-                guard
-                    let imageData = imageData,
-                    let userImage = UIImage(data: imageData)
-                else { return }
-                userProfileImageView.image = userImage
-            }
-            
             viewModel.viewModelDidChange = { [unowned self] changedViewModel in
                 setupFavouriteButton(status: changedViewModel.isFavourite)
             }
@@ -192,6 +175,27 @@ class PhotoDetailsViewController: UIViewController {
         }
         
         setupFavouriteButton(status: viewModel.isFavourite)
+        
+        updateImages()
+    }
+    
+    private func updateImages() {
+        viewModel.fetchDetailedPhoto { [unowned self] imageData in
+            guard
+                let imageData = imageData,
+                let detailedImage = UIImage(data: imageData)
+            else { return }
+            detailedPhotoImageView.image = detailedImage
+            bluredPhotoImageView.image = detailedImage
+        }
+        
+        viewModel.fetchUserProfilePhoto { [unowned self] imageData in
+            guard
+                let imageData = imageData,
+                let userImage = UIImage(data: imageData)
+            else { return }
+            userProfileImageView.image = userImage
+        }
     }
     
     private func setupFavouriteButton(status: Bool) {

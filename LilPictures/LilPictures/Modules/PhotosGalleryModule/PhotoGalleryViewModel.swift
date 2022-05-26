@@ -46,9 +46,7 @@ class PhotoGalleryViewModel: PhotoGalleryViewModelProtocol {
         apiDataExtractor.fetchPhotos(count: 30) { photos in
             guard let photos = photos else { return }
             self.photos = photos
-            DispatchQueue.main.async {
-                completion()
-            }
+            completion()
         }
     }
     
@@ -56,20 +54,16 @@ class PhotoGalleryViewModel: PhotoGalleryViewModelProtocol {
         apiDataExtractor.fetchPhotos(query: query, count: 30, pages: 1) { photoResult in
             guard let photos = photoResult?.results else { return }
             self.searchResultPhotos = photos
-            DispatchQueue.main.async {
-                completion()
-            }
+            completion()
         }
     }
     
     func fetchAdditionalImages(completion: @escaping (Range<Int>) -> Void) {
         let currentCount = photos.count
-        apiDataExtractor.fetchPhotos(count: 30) { photos in
+        apiDataExtractor.fetchPhotos(count: 30) { [unowned self] photos in
             guard let fetchedPhotos = photos else { return }
             self.photos += fetchedPhotos
-            DispatchQueue.main.async {
-                completion(currentCount..<self.photos.count)
-            }
+            completion(currentCount..<self.photos.count)
         }
     }
     

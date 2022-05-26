@@ -25,9 +25,7 @@ class FavouritePhotoCellViewModel: FavouritePhotoCellViewModelProtocol {
         guard let url = photo.url else { return }
         NetworkDataManager.shared.fetchData(from: url) { [unowned self] imageData in
             self.imageData = imageData
-            DispatchQueue.main.async {
-                completion(imageData)
-            }
+            completion(imageData)
         }
     }
     

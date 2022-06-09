@@ -8,15 +8,16 @@
 import UIKit
 
 protocol AssemblyBuilderProtocol: AnyObject {
-    func createPhotosGalleryModule(router: RouterProtocol) -> UIViewController
+    func createPhotosGalleryModule() -> UIViewController
     func createPhotoDetailsModule(photo: PhotoInfo) -> UIViewController
-    func createFavouritePhotosModule(router: RouterProtocol) -> UIViewController
+    func createFavouritePhotosModule() -> UIViewController
     func creteDetailedFavPhotoModule(imageData: Data?) -> UIViewController
 }
 
 class AssemblyBuilder: AssemblyBuilderProtocol {
-    func createPhotosGalleryModule(router: RouterProtocol) -> UIViewController {
+    func createPhotosGalleryModule() -> UIViewController {
         let view = PhotoGalleryViewController()
+        let router = PhotoGalleryRouter(baseViewController: view, assemblyBuilder: self)
         let photosGalleryViewModel = PhotoGalleryViewModel(router: router)
         view.viewModel = photosGalleryViewModel
         return view
@@ -29,10 +30,11 @@ class AssemblyBuilder: AssemblyBuilderProtocol {
         return view
     }
     
-    func createFavouritePhotosModule(router: RouterProtocol) -> UIViewController {
+    func createFavouritePhotosModule() -> UIViewController {
         let view = FavouritePhotosViewController()
-        let favouritePhotosViewModel = FavouritePhotosViewModel(router: router)
-        view.viewModel = favouritePhotosViewModel
+        let router = FavouritePhotosRouter(baseViewController: view, assemblyBuilder: self)
+        let viewModel = FavouritePhotosViewModel(router: router)
+        view.viewModel = viewModel
         return view
     }
     

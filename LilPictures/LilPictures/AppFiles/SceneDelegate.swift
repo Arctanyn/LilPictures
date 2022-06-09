@@ -20,12 +20,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
         
         let assemblyBuilder = AssemblyBuilder()
-        let mainNavigationController = UINavigationController()
 
-        let router = Router(assemblyBuilder: assemblyBuilder, navigationController: mainNavigationController)
-        router.setInitialViewController()
-
-        window?.rootViewController = mainNavigationController
+        window?.rootViewController = UINavigationController(rootViewController: assemblyBuilder.createPhotosGalleryModule())
         window?.makeKeyAndVisible()
     }
 

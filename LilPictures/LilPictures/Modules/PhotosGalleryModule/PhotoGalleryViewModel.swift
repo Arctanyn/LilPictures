@@ -7,6 +7,10 @@
 
 import Foundation
 
+protocol PhotoGalleryViewModelDelegate: AnyObject {
+    func showDetails(photo: PhotoInfo)
+}
+
 //MARK: PhotoGalleryViewModelProtocol
 
 protocol PhotoGalleryViewModelProtocol {
@@ -31,12 +35,12 @@ class PhotoGalleryViewModel: PhotoGalleryViewModelProtocol {
         photos.count
     }
     
-    private let router: RouterProtocol
+    private let router: Router
     private var photos: [PhotoInfo] = []
     private var searchResultPhotos: [PhotoInfo] = []
     private lazy var apiDataExtractor = APIDataExtractor(accessKey: fetchAPIAccessKey() ?? "")
     
-    init(router: RouterProtocol) {
+    init(router: Router) {
         self.router = router
     }
     
@@ -76,15 +80,17 @@ class PhotoGalleryViewModel: PhotoGalleryViewModelProtocol {
     }
     
     func showPhotoDetailsForSelectedCell(at indexPath: IndexPath) {
-        router.showPhotosDetailsViewController(with: photos[indexPath.row])
+        router.present(module: .photoDetails, animated: true, context: photos[indexPath.row], completion: nil)
     }
     
     func createPhotoSearchViewModel() -> PhotoSearchViewModelProtocol {
-        return PhotoSearchViewModel(photos: self.searchResultPhotos, router: router)
+        let viewModel = PhotoSearchViewModel(photos: self.searchResultPhotos)
+        viewModel.delegate = self
+        return viewModel
     }
     
     func presentFavouritePhotos() {
-        router.showFavouritePhotosViewController()
+        router.pushIntoNavigation(module: .favourites, context: nil, animated: true)
     }
     
     //MARK: - Private methods
@@ -100,5 +106,12 @@ class PhotoGalleryViewModel: PhotoGalleryViewModelProtocol {
             return nil
         }
     }
-    
+}
+
+//MARK: - PhotoGalleryViewModelDelegate
+
+extension PhotoGalleryViewModel: PhotoGalleryViewModelDelegate {
+    func showDetails(photo: PhotoInfo) {
+        router.present(module: .photoDetails, animated: true, context: photo, completion: nil)
+    }
 }

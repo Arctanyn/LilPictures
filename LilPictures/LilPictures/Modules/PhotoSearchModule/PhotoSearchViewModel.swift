@@ -7,6 +7,8 @@
 
 import Foundation
 
+//MARK: - PhotoSearchViewModelProtocol
+
 protocol PhotoSearchViewModelProtocol {
     var numberOfPhotos: Int { get }
     func photoForCell(at indexPath: IndexPath) -> PhotoCollectionViewCellViewModelProtocol
@@ -14,17 +16,19 @@ protocol PhotoSearchViewModelProtocol {
     func showPhotoDetailsForCell(at indexPath: IndexPath)
 }
 
+//MARK: - PhotoSearchViewModel
+
 class PhotoSearchViewModel: PhotoSearchViewModelProtocol {
     var numberOfPhotos: Int {
         photos.count
     }
     
-    private let photos: [PhotoInfo]
-    private let router: RouterProtocol
+    weak var delegate: PhotoGalleryViewModelDelegate?
     
-    init(photos: [PhotoInfo], router: RouterProtocol) {
+    private let photos: [PhotoInfo]
+    
+    init(photos: [PhotoInfo]) {
         self.photos = photos
-        self.router = router
     }
     
     func photoForCell(at indexPath: IndexPath) -> PhotoCollectionViewCellViewModelProtocol {
@@ -36,7 +40,7 @@ class PhotoSearchViewModel: PhotoSearchViewModelProtocol {
     }
     
     func showPhotoDetailsForCell(at indexPath: IndexPath) {
-        router.showPhotosDetailsViewController(with: photos[indexPath.item])
+        delegate?.showDetails(photo: photos[indexPath.item])
     }
     
 }

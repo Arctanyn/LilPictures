@@ -7,6 +7,8 @@
 
 import Foundation
 
+//MARK: - FavouritePhotosViewModelProtocol
+
 protocol FavouritePhotosViewModelProtocol {
     var numberOfPhotos: Int { get }
     var viewModelDidChange: ((FavouritePhotosViewModelProtocol) -> Void)? { get set }
@@ -17,18 +19,20 @@ protocol FavouritePhotosViewModelProtocol {
     func showDetailedPhoto(with imageData: Data?)
 }
 
+//MARK: - FavouritePhotosViewModel
+
 class FavouritePhotosViewModel: FavouritePhotosViewModelProtocol {
     var numberOfPhotos: Int {
         photos.count
     }
     
     var viewModelDidChange: ((FavouritePhotosViewModelProtocol) -> Void)?
-        
+    
+    private let router: Router
     private var photos: [PhotoStorageModel] = []
     private let storageManager = StorageManager()
-    private let router: RouterProtocol
     
-    init(router: RouterProtocol) {
+    init(router: Router) {
         self.router = router
     }
     
@@ -45,7 +49,7 @@ class FavouritePhotosViewModel: FavouritePhotosViewModelProtocol {
     
     func deleteAllPhotos(completion: @escaping () -> Void) {
         storageManager.deleteAll()
-        photos = []
+        photos.removeAll()
         viewModelDidChange?(self)
         completion()
     }
@@ -55,6 +59,6 @@ class FavouritePhotosViewModel: FavouritePhotosViewModelProtocol {
     }
     
     func showDetailedPhoto(with imageData: Data?) {
-        router.showDetailedFavPhotoViewController(with: imageData)
+        router.pushIntoNavigation(module: .detailedFavouritePhoto, context: imageData, animated: true)
     }
 }

@@ -7,9 +7,13 @@
 
 import Foundation
 
+//MARK: - DetailedFavouritePhotoViewModelProtocol
+
 protocol DetailedFavouritePhotoViewModelProtocol {
     var imageData: Data? { get }
 }
+
+//MARK: - DetailedFavouritePhotoViewModel
 
 class DetailedFavouritePhotoViewModel: DetailedFavouritePhotoViewModelProtocol {
     var imageData: Data?

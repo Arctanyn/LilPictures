@@ -63,10 +63,10 @@ class PhotoGalleryViewController: UIViewController {
             image: UIImage(systemName: "arrow.clockwise"),
             style: .plain,
             target: self,
-            action: #selector(refreshButtonTapped(_:))
+            action: #selector(refreshButtonTapped)
         )
         
-        let favouritesButton = UIBarButtonItem(image: UIImage(systemName: "heart"), style: .plain, target: self, action: #selector(favouritesButtonTapped(_:)))
+        let favouritesButton = UIBarButtonItem(image: UIImage(systemName: "heart"), style: .plain, target: self, action: #selector(favouritesButtonTapped))
         
         navigationItem.rightBarButtonItems = [refreshButton, favouritesButton]
         
@@ -76,13 +76,13 @@ class PhotoGalleryViewController: UIViewController {
     
     //MARK: - Ations
     
-    @objc private func refreshButtonTapped(_ sender: UIBarButtonItem) {
+    @objc private func refreshButtonTapped() {
         viewModel.fetchImages { [unowned self] in
             photoCollectionView.reloadData()
         }
     }
     
-    @objc private func favouritesButtonTapped(_ sender: UIBarButtonItem) {
+    @objc private func favouritesButtonTapped() {
         viewModel.presentFavouritePhotos()
     }
 

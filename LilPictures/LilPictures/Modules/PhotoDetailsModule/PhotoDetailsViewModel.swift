@@ -7,6 +7,8 @@
 
 import Foundation
 
+//MARK: - PhotoDetailsViewModelProtocol
+
 protocol PhotoDetailsViewModelProtocol {
     var isFavourite: Bool { get }
     var userName: String? { get }
@@ -14,9 +16,10 @@ protocol PhotoDetailsViewModelProtocol {
     var viewModelDidChange: ((PhotoDetailsViewModelProtocol) -> Void)? { get set }
     func fetchUserProfilePhoto(completion: @escaping (Data?) -> Void)
     func fetchDetailedPhoto(completion: @escaping (Data?) -> Void)
-    func fetchFullPhoto(completion: @escaping (Data?) -> Void)
     func toggleFavouriteStatus()
 }
+
+//MARK: - PhotoDetailsViewModel
 
 class PhotoDetailsViewModel: PhotoDetailsViewModelProtocol {
     var isFavourite: Bool {
@@ -57,16 +60,6 @@ class PhotoDetailsViewModel: PhotoDetailsViewModelProtocol {
     }
     
     func fetchDetailedPhoto(completion: @escaping (Data?) -> Void) {
-        guard let url = photo.urls?["regular"] else {
-            completion(nil)
-            return
-        }
-        NetworkDataManager.shared.fetchData(from: url) { imageData in
-            completion(imageData)
-        }
-    }
-    
-    func fetchFullPhoto(completion: @escaping (Data?) -> Void) {
         guard let url = photo.urls?["regular"] else {
             completion(nil)
             return

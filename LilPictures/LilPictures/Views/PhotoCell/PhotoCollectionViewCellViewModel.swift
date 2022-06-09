@@ -7,11 +7,15 @@
 
 import Foundation
 
+//MARK: - PhotoCollectionViewCellViewModelProtocol
+
 protocol PhotoCollectionViewCellViewModelProtocol {
     var photoID: String { get }
     init(photo: PhotoInfo)
     func fetchPhoto(completion: @escaping (Data?) -> Void)
 }
+
+//MARK: - PhotoCollectionViewCellViewModel
 
 class PhotoCollectionViewCellViewModel: PhotoCollectionViewCellViewModelProtocol {
     var photoID: String {

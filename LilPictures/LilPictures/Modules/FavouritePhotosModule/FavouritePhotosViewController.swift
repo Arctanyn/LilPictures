@@ -32,7 +32,7 @@ class FavouritePhotosViewController: UIViewController {
     
     private var menuItems: [UIAction] {
         return [
-            UIAction(title: "Delete all", image: UIImage(systemName: "trash"), attributes: .destructive, handler: { [weak self] _ in
+            UIAction(title: "Delete All", image: UIImage(systemName: "trash"), attributes: .destructive, handler: { [weak self] _ in
                 self?.showDeleteAllAlert()
             })
         ]
@@ -157,7 +157,7 @@ extension FavouritePhotosViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 20, left: 16, bottom: 20, right: 16)
+        return UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {

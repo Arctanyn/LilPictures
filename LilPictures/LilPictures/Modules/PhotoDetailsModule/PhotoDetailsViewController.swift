@@ -16,7 +16,7 @@ class PhotoDetailsViewController: UIViewController {
             updateUI()
             
             viewModel.viewModelDidChange = { [unowned self] changedViewModel in
-                setupFavouriteButton(status: changedViewModel.isFavourite)
+                setupFavouriteButton(with: changedViewModel.isFavourite)
             }
         }
     }
@@ -147,13 +147,12 @@ class PhotoDetailsViewController: UIViewController {
     }
     
     @objc private func shareButtonTapped(_ sender: UIButton) {
-        guard sender == shareButton else { return }
-        viewModel.fetchFullPhoto { [weak self] imageData in
-            guard let imageData = imageData,
-                  let fullImage = UIImage(data: imageData)
-            else { return }
-            self?.presentActivityController(with: fullImage)
-        }
+        guard
+            sender == shareButton,
+            let image = detailedPhotoImageView.image
+        else { return }
+        presentActivityController(with: image)
+
     }
     
     @objc private func favouriteButtonTapped(_ sender: UIButton) {
@@ -174,7 +173,7 @@ class PhotoDetailsViewController: UIViewController {
             photoDescriptionLabel.textColor = .lightGray
         }
         
-        setupFavouriteButton(status: viewModel.isFavourite)
+        setupFavouriteButton(with: viewModel.isFavourite)
         
         updateImages()
     }
@@ -198,7 +197,7 @@ class PhotoDetailsViewController: UIViewController {
         }
     }
     
-    private func setupFavouriteButton(status: Bool) {
+    private func setupFavouriteButton(with status: Bool) {
         if status {
             favouriteButton.tintColor = .systemRed
             favouriteButton.setImage(

@@ -9,17 +9,21 @@ import UIKit
 
 class PhotoGalleryViewController: UIViewController {
     
+    
     //MARK: Properties
     
     var viewModel: PhotoGalleryViewModelProtocol! {
         didSet {
             viewModel.fetchImages { [unowned self] in
+                loadingIndicator.stopAnimating()
                 photoCollectionView.reloadData()
             }
         }
     }
     
     //MARK: - View
+    
+    var loadingIndicator: UIActivityIndicatorView = LoadingIndicatorView(style: .large)
     
     private lazy var photoCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -39,14 +43,21 @@ class PhotoGalleryViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setupNavigationBar()
+        setupLoadingIndicator()
         setupPhotoCollectionView()
     }
 
     override func viewDidLayoutSubviews() {
+        loadingIndicator.center = view.center
         photoCollectionView.frame = view.bounds
+        view.sendSubviewToBack(photoCollectionView)
     }
     
     //MARK: - Private methods
+    private func setupLoadingIndicator() {
+        view.addSubview(loadingIndicator)
+        loadingIndicator.startAnimating()
+    }
     
     private func setupPhotoCollectionView() {
         view.addSubview(photoCollectionView)
@@ -63,7 +74,7 @@ class PhotoGalleryViewController: UIViewController {
             image: UIImage(systemName: "arrow.clockwise"),
             style: .plain,
             target: self,
-            action: #selector(refreshButtonTapped)
+            action: #selector(refreshButtonTapped(_:))
         )
         
         let favouritesButton = UIBarButtonItem(image: UIImage(systemName: "heart"), style: .plain, target: self, action: #selector(favouritesButtonTapped))
@@ -76,10 +87,12 @@ class PhotoGalleryViewController: UIViewController {
     
     //MARK: - Ations
     
-    @objc private func refreshButtonTapped() {
+    @objc private func refreshButtonTapped(_ sender: UIBarButtonItem) {
         viewModel.fetchImages { [unowned self] in
+            sender.isEnabled = false
             photoCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
             photoCollectionView.reloadData()
+            sender.isEnabled = true
         }
     }
     

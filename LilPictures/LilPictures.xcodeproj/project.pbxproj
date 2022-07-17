@@ -26,6 +26,7 @@
 		3B2F89562826D44100C02012 /* FavouritePhotoCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2F89552826D44100C02012 /* FavouritePhotoCellViewModel.swift */; };
 		3B3E96702827EF8300A21253 /* DetailedFavouritePhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3E966F2827EF8300A21253 /* DetailedFavouritePhotoViewController.swift */; };
 		3B3E96722827F19600A21253 /* DetailedFavouritePhotoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3E96712827F19600A21253 /* DetailedFavouritePhotoViewModel.swift */; };
+		3B5B8144288406ED0084E357 /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5B8143288406ED0084E357 /* LoadingIndicatorView.swift */; };
 		3B68E89428269B3500DA008A /* PhotoSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B68E89328269B3500DA008A /* PhotoSearchViewController.swift */; };
 		3B68E89628269D5A00DA008A /* PhotoSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B68E89528269D5A00DA008A /* PhotoSearchViewModel.swift */; };
 		3B68ECE12822D42400D0D037 /* PhotoDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B68ECE02822D42400D0D037 /* PhotoDetailsViewModel.swift */; };
@@ -61,6 +62,7 @@
 		3B2F89552826D44100C02012 /* FavouritePhotoCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritePhotoCellViewModel.swift; sourceTree = "<group>"; };
 		3B3E966F2827EF8300A21253 /* DetailedFavouritePhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedFavouritePhotoViewController.swift; sourceTree = "<group>"; };
 		3B3E96712827F19600A21253 /* DetailedFavouritePhotoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedFavouritePhotoViewModel.swift; sourceTree = "<group>"; };
+		3B5B8143288406ED0084E357 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
 		3B68E89328269B3500DA008A /* PhotoSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSearchViewController.swift; sourceTree = "<group>"; };
 		3B68E89528269D5A00DA008A /* PhotoSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSearchViewModel.swift; sourceTree = "<group>"; };
 		3B68ECE02822D42400D0D037 /* PhotoDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailsViewModel.swift; sourceTree = "<group>"; };
@@ -104,9 +106,8 @@
 		3B290A092821708E0000B34D /* LilPictures */ = {
 			isa = PBXGroup;
 			children = (
-				3BABA66D285245CE00BD9FCD /* Router.swift */,
-				3B290A372821A18A0000B34D /* AssemblyBuilder.swift */,
 				3B290A1E282170970000B34D /* AppFiles */,
+				3B5B814828840B860084E357 /* CoreEntities */,
 				3BDBA7EE2828212100AC2832 /* Services */,
 				3B290A2A282181620000B34D /* Models */,
 				3BABA67528526BA500BD9FCD /* Views */,
@@ -202,6 +203,15 @@
 			path = DetailedFavouritePhotoModule;
 			sourceTree = "<group>";
 		};
+		3B5B814828840B860084E357 /* CoreEntities */ = {
+			isa = PBXGroup;
+			children = (
+				3BABA66D285245CE00BD9FCD /* Router.swift */,
+				3B290A372821A18A0000B34D /* AssemblyBuilder.swift */,
+			);
+			path = CoreEntities;
+			sourceTree = "<group>";
+		};
 		3B68E89228269B0100DA008A /* PhotoSearchModule */ = {
 			isa = PBXGroup;
 			children = (
@@ -216,6 +226,7 @@
 			children = (
 				3B290A25282180A30000B34D /* PhotoCell */,
 				3B2F89522826D3EE00C02012 /* FavouritePhotoCell */,
+				3B5B8143288406ED0084E357 /* LoadingIndicatorView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -334,6 +345,7 @@
 				3B290A2C282181850000B34D /* PhotoResultModel.swift in Sources */,
 				3B68E89628269D5A00DA008A /* PhotoSearchViewModel.swift in Sources */,
 				3BABA66E285245CE00BD9FCD /* Router.swift in Sources */,
+				3B5B8144288406ED0084E357 /* LoadingIndicatorView.swift in Sources */,
 				3B2F89562826D44100C02012 /* FavouritePhotoCellViewModel.swift in Sources */,
 				3B290A3E2821AF380000B34D /* NetworkDataManager.swift in Sources */,
 				3B290A0B2821708E0000B34D /* AppDelegate.swift in Sources */,

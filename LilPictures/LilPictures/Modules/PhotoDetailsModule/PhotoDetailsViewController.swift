@@ -15,8 +15,8 @@ class PhotoDetailsViewController: UIViewController {
         didSet {
             updateUI()
             
-            viewModel.viewModelDidChange = { [unowned self] changedViewModel in
-                setupFavouriteButton(with: changedViewModel.isFavourite)
+            viewModel.viewModelDidChange = { [weak self] changedViewModel in
+                self?.setupFavouriteButton(with: changedViewModel.isFavourite)
             }
         }
     }

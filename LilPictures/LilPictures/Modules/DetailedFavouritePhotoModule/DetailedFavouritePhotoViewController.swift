@@ -13,14 +13,16 @@ class DetailedFavouritePhotoViewController: UIViewController {
     
     var viewModel: DetailedFavouritePhotoViewModelProtocol! {
         didSet {
-            viewModel.fetchPhoto { [unowned self] imageData in
+            viewModel.fetchPhoto { [weak self] imageData in
                 guard let imageData = imageData else { return }
-                photoImageView.image = UIImage(data: imageData)
+                self?.loadingIndicator.stopAnimating()
+                self?.photoImageView.image = UIImage(data: imageData)
             }
         }
     }
     
     //MARK: - View
+    private lazy var loadingIndicator = UIActivityIndicatorView(style: .large)
     
     private let buttonSymbolConfig = UIImage.SymbolConfiguration(pointSize: 22, weight: .semibold)
     
@@ -59,10 +61,12 @@ class DetailedFavouritePhotoViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .secondarySystemBackground
         navigationItem.largeTitleDisplayMode = .never
+        setupLoadingIndicator()
         setConstraints()
     }
     
     override func viewDidLayoutSubviews() {
+        loadingIndicator.center = photoImageView.center
         saveButton.layer.cornerRadius = saveButton.frame.height / 2
         moreButton.layer.cornerRadius = moreButton.frame.height / 2
     }
@@ -95,6 +99,11 @@ class DetailedFavouritePhotoViewController: UIViewController {
     }
     
     //MARK: - Private methods
+    
+    private func setupLoadingIndicator() {
+        view.addSubview(loadingIndicator)
+        loadingIndicator.startAnimating()
+    }
     
     private func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)

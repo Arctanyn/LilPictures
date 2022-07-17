@@ -15,8 +15,8 @@ class FavouritePhotosViewController: UIViewController {
         didSet {
             viewModel.fetchPhotos()
             setEnablingToOptionsButton()
-            viewModel.viewModelDidChange = { [unowned self] changedViewModel in
-                setEnablingToOptionsButton()
+            viewModel.viewModelDidChange = { [weak self] changedViewModel in
+                self?.setEnablingToOptionsButton()
             }
         }
     }

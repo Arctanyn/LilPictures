@@ -15,12 +15,12 @@ class FavouritePhotoCollectionViewCell: UICollectionViewCell {
     
     var viewModel: FavouritePhotoCellViewModelProtocol! {
         didSet {
-            viewModel.fetchPhoto { [unowned self] imageData in
+            viewModel.fetchPhoto { [weak self] imageData in
                 guard let imageData = imageData else {
-                    photoImageView.image = nil
+                    self?.photoImageView.image = nil
                     return
                 }
-                photoImageView.image = UIImage(data: imageData)
+                self?.photoImageView.image = UIImage(data: imageData)
             }
         }
     }

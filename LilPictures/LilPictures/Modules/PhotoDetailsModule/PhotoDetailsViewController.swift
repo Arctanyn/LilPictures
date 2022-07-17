@@ -179,21 +179,21 @@ class PhotoDetailsViewController: UIViewController {
     }
     
     private func updateImages() {
-        viewModel.fetchDetailedPhoto { [unowned self] imageData in
+        viewModel.fetchDetailedPhoto { [weak self] imageData in
             guard
                 let imageData = imageData,
                 let detailedImage = UIImage(data: imageData)
             else { return }
-            detailedPhotoImageView.image = detailedImage
-            bluredPhotoImageView.image = detailedImage
+            self?.detailedPhotoImageView.image = detailedImage
+            self?.bluredPhotoImageView.image = detailedImage
         }
         
-        viewModel.fetchUserProfilePhoto { [unowned self] imageData in
+        viewModel.fetchUserProfilePhoto { [weak self] imageData in
             guard
                 let imageData = imageData,
                 let userImage = UIImage(data: imageData)
             else { return }
-            userProfileImageView.image = userImage
+            self?.userProfileImageView.image = userImage
         }
     }
     

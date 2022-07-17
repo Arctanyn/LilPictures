@@ -16,7 +16,7 @@ protocol FavouritePhotosViewModelProtocol {
     func deletePhoto(at indexPath: IndexPath, completion: @escaping () -> Void)
     func deleteAllPhotos(completion: @escaping () -> Void)
     func viewModelForCell(at indexPath: IndexPath) -> FavouritePhotoCellViewModelProtocol
-    func showDetailedPhoto(with imageData: Data?)
+    func showDetailedPhotoForCell(at indexPath: IndexPath)
 }
 
 //MARK: - FavouritePhotosViewModel
@@ -57,8 +57,8 @@ class FavouritePhotosViewModel: FavouritePhotosViewModelProtocol {
     func viewModelForCell(at indexPath: IndexPath) -> FavouritePhotoCellViewModelProtocol {
         FavouritePhotoCellViewModel(photo: photos[indexPath.item])
     }
-    
-    func showDetailedPhoto(with imageData: Data?) {
-        router.pushIntoNavigation(module: .detailedFavouritePhoto, context: imageData, animated: true)
+
+    func showDetailedPhotoForCell(at indexPath: IndexPath) {
+        router.pushIntoNavigation(module: .detailedFavouritePhoto, context: photos[indexPath.item], animated: true)
     }
 }

@@ -26,7 +26,7 @@ class FavouritePhotoCellViewModel: FavouritePhotoCellViewModelProtocol {
     }
     
     func fetchPhoto(completion: @escaping (Data?) -> Void) {
-        guard let url = photo.url else { return }
+        guard let url = photo.previewURL else { return }
         NetworkDataManager.shared.fetchData(from: url) { [weak self] imageData in
             self?.imageData = imageData
             completion(imageData)

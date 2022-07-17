@@ -10,16 +10,21 @@ import Foundation
 //MARK: - DetailedFavouritePhotoViewModelProtocol
 
 protocol DetailedFavouritePhotoViewModelProtocol {
-    var imageData: Data? { get }
+    func fetchPhoto(completion: @escaping (Data?) -> Void)
 }
 
 //MARK: - DetailedFavouritePhotoViewModel
 
 class DetailedFavouritePhotoViewModel: DetailedFavouritePhotoViewModelProtocol {
-    var imageData: Data?
+    private let photo: PhotoStorageModel
     
-    init(imageData: Data?) {
-        self.imageData = imageData
+    init(photo: PhotoStorageModel) {
+        self.photo = photo
+    }
+    
+    func fetchPhoto(completion: @escaping (Data?) -> Void) {
+        guard let url = photo.baseURL else { return }
+        NetworkDataManager.shared.fetchData(from: url, completion: completion)
     }
     
 }

@@ -19,23 +19,18 @@ class StorageManager {
     //MARK: - Methods
     
     func save(_ photo: PhotoInfo) {
-        guard
-            let context = context,
-            let entityDescription = NSEntityDescription.entity(forEntityName: "PhotoStorageModel", in: context),
-            let photoModel = NSManagedObject(entity: entityDescription, insertInto: context) as? PhotoStorageModel
-        else { return }
-        
-        photoModel.url = photo.urls?["regular"]
+        guard let context = context else { return }
+        let photoModel = PhotoStorageModel(context: context)
+        photoModel.previewURL = photo.urls?["small"]
+        photoModel.baseURL = photo.urls?["regular"]
         photoModel.identifier = photo.id
-        
         saveContext()
     }
     
     func fetchPhotos() -> [PhotoStorageModel] {
         guard let context = context else { return [] }
-        let fetchRequest: NSFetchRequest<PhotoStorageModel> = PhotoStorageModel.fetchRequest()
         do {
-            let photos = try context.fetch(fetchRequest)
+            let photos = try context.fetch(PhotoStorageModel.fetchRequest())
             return photos
         } catch let fetchError {
             print(fetchError.localizedDescription)

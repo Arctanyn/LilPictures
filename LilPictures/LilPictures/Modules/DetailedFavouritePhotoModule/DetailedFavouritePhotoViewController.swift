@@ -13,8 +13,10 @@ class DetailedFavouritePhotoViewController: UIViewController {
     
     var viewModel: DetailedFavouritePhotoViewModelProtocol! {
         didSet {
-            guard let imageData = viewModel.imageData else { return }
-            photoImageView.image = UIImage(data: imageData)
+            viewModel.fetchPhoto { [unowned self] imageData in
+                guard let imageData = imageData else { return }
+                photoImageView.image = UIImage(data: imageData)
+            }
         }
     }
     

@@ -121,8 +121,8 @@ extension FavouritePhotosViewController: UICollectionViewDataSource {
 
 extension FavouritePhotosViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? FavouritePhotoCollectionViewCell else { return }
-        viewModel.showDetailedPhoto(with: cell.viewModel.imageData)
+        viewModel.showDetailedPhotoForCell(at: indexPath)
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {

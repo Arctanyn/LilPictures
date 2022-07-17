@@ -37,10 +37,10 @@ class FavouritePhotosRouter: Router {
     private func prepareViewController(module: RouteModule, context: Any?) -> UIViewController {
         switch module {
         case .detailedFavouritePhoto:
-            guard let imageData = context as? Data? else {
+            guard let photo = context as? PhotoStorageModel else {
                 fatalError(RoutingError.lackOfNecessaryContext.rawValue)
             }
-            return assemblyBuilder.creteDetailedFavPhotoModule(imageData: imageData)
+            return assemblyBuilder.creteDetailedFavPhotoModule(photo: photo)
         default:
             fatalError(RoutingError.inappropriateModule.rawValue)
         }

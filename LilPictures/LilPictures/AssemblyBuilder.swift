@@ -11,7 +11,7 @@ protocol AssemblyBuilderProtocol: AnyObject {
     func createPhotosGalleryModule() -> UIViewController
     func createPhotoDetailsModule(photo: PhotoInfo) -> UIViewController
     func createFavouritePhotosModule() -> UIViewController
-    func creteDetailedFavPhotoModule(imageData: Data?) -> UIViewController
+    func creteDetailedFavPhotoModule(photo: PhotoStorageModel) -> UIViewController
 }
 
 class AssemblyBuilder: AssemblyBuilderProtocol {
@@ -38,9 +38,9 @@ class AssemblyBuilder: AssemblyBuilderProtocol {
         return view
     }
     
-    func creteDetailedFavPhotoModule(imageData: Data?) -> UIViewController {
+    func creteDetailedFavPhotoModule(photo: PhotoStorageModel) -> UIViewController {
         let view = DetailedFavouritePhotoViewController()
-        let detailedFavouritePhotoViewModel = DetailedFavouritePhotoViewModel(imageData: imageData)
+        let detailedFavouritePhotoViewModel = DetailedFavouritePhotoViewModel(photo: photo)
         view.viewModel = detailedFavouritePhotoViewModel
         return view
     }

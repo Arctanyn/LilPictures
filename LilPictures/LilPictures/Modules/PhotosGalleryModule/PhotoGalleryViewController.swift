@@ -78,6 +78,7 @@ class PhotoGalleryViewController: UIViewController {
     
     @objc private func refreshButtonTapped() {
         viewModel.fetchImages { [unowned self] in
+            photoCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
             photoCollectionView.reloadData()
         }
     }

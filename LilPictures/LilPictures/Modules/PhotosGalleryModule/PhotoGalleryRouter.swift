@@ -48,7 +48,7 @@ class PhotoGalleryRouter: Router {
         case .favourites:
             return assemblyBuilder.createFavouritePhotosModule()
         default:
-            fatalError(RoutingError.inappropriateModule)
+            fatalError(RoutingError.inappropriateModule.rawValue)
         }
     }
 }

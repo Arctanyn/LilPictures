@@ -72,8 +72,7 @@ class DetailedFavouritePhotoViewController: UIViewController {
             sender == saveButton,
             let image = photoImageView.image
         else { return }
-        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-        showAlert(title: "Completed!", message: "Image has been saved")
+        UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
     }
     
     @objc private func moreButtonTapped(_ sender: UIButton) {
@@ -83,6 +82,14 @@ class DetailedFavouritePhotoViewController: UIViewController {
         else { return }
         let share = UIActivityViewController(activityItems: [image], applicationActivities: nil)
         present(share, animated: true)
+    }
+    
+    @objc private func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+        if let error = error {
+            showAlert(title: "Saving error", message: error.localizedDescription)
+        } else {
+            showAlert(title: "Successfully", message: "The image has been saved")
+        }
     }
     
     //MARK: - Private methods
